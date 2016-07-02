@@ -12,13 +12,28 @@ from PyQt4 import QtGui, QtCore
 
 
 class Person(object):
-    def __init__(self, nome, idade, cpf, endereco, login, senha):
+    def __init__(self, nome, idade, cpf, endereco, login, senha, acao):
         self.nome = nome
         self.idade = idade
         self.cpf = cpf
         self.endereco = endereco
         self.login = login
         self.senha = senha
+        self.acao = acao
+
+
+class Aposta(object):
+    def __init__(self, campo1, campo2, campo3, campo4, campo5, campo6, nome, cpf, endereco, acao):
+        self.campo1 = campo1
+        self.campo2 = campo2
+        self.campo3 = campo3
+        self.campo4 = campo4
+        self.campo5 = campo5
+        self.campo6 = campo6
+        self.nome = nome
+        self.cpf = cpf
+        self.endereco = endereco
+        self.acao = acao
 
 
 class classePrincipalCliente(QtGui.QMainWindow):
@@ -31,6 +46,10 @@ class classePrincipalCliente(QtGui.QMainWindow):
 
         self.conexao = Conectar()
         self.tcp = self.conexaoTCPCliente()
+
+        self.nomeM = None
+        self.cpfM = None
+        self.enderecoM = None
 
         self.tela_principal.setupUi(self)
 
@@ -62,7 +81,7 @@ class classePrincipalCliente(QtGui.QMainWindow):
         #conectar = Conectar()
         tcp = self.tcp
 
-        pessoa = Person(nome, idade, cpf, endereco, login, senha)
+        pessoa = Person(nome, idade, cpf, endereco, login, senha, 'CADASTRAR')
 
         resposta = self.conexao.serializarEnviarObjeto(tcp, pessoa)
 
@@ -97,18 +116,59 @@ class classePrincipalCliente(QtGui.QMainWindow):
 
         tcp = self.tcp
 
-        pessoa = Person(None, None, None, None, login, senha)
+        pessoa = Person(None, None, None, None, login, senha, 'LOGAR')
         resposta = self.conexao.serializarEnviarObjeto(tcp, pessoa)
 
+        if resposta.nome != None:
+            print 'CHEGOU UMA PESSOA AQUI'
+            #print resposta.nome, resposta.cpf, resposta.endereco
+            self.nomeM = resposta.nome
+            self.cpfM = resposta.cpf
+            self.enderecoM = resposta.endereco
+            self.tela_apostar.setupUi(self)
+        else:
+            print 'NÃO CHEGOU NINGUÉM'
+            print "NÃO LOGADO, DEPOIS CRIAR MENSAGEM PARA A TELA E NÃO PERMITIR IR PARA TELA DE APOSTAS"
+
+        """
         if resposta == 'LOGADO':
             self.tela_apostar.setupUi(self)
         else:
             #self.tela_login.window()
             print "NÃO LOGADO, DEPOIS CRIAR MENSAGEM PARA A TELA E NÃO PERMITIR IR PARA TELA DE APOSTAS"
+        """
 
 
     def sairLogin(self):
         self.tela_principal.setupUi(self)
+
+
+    def comoJogar(self):
+        pass
+
+
+    def apostar(self):
+        campo1 = self.tela_apostar.lineEdit01.text()
+        campo2 = self.tela_apostar.lineEdit02.text()
+        campo3 = self.tela_apostar.lineEdit03.text()
+        campo4 = self.tela_apostar.lineEdit04.text()
+        campo5 = self.tela_apostar.lineEdit05.text()
+        campo6 = self.tela_apostar.lineEdit06.text()
+
+        if campo1 == None or campo2 == None or campo3 == None or campo4 == None or campo5 == None or campo6 == None:
+            #CRIAR MENSAGEM DE TELA, TIPO O JOPTIONPANE DO JAVA
+            print 'NÃO PODE CONTER CAMPOS EM BRANCO'
+        else:
+            tcp = self.tcp
+            aposta = Aposta(campo1, campo2, campo3, campo4, campo5, campo6, self.nomeM, self.cpfM, self.enderecoM, 'APOSTAR')
+            resposta = self.conexao.serializarEnviarObjeto(tcp, aposta)
+
+        if resposta == 'APOSTADO':
+            print 'MENSAGEM TIPO JOPTIONPANE QUE DEU CERTO A APOSTA'
+            self.tela_principal.setupUi(self)
+        else:
+            print 'NAO APOSTOU, OCORREU ERRO MENSAGEM'
+            self.tela_apostar.setupUi(self)
 
 
 if __name__ == "__main__":

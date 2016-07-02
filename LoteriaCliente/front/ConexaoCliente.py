@@ -21,7 +21,12 @@ class Conectar():
         tcp.send(serializado)
 
         resposta = self.receberMensagem(tcp)
-        return resposta
+        try:
+            person = pickle.loads(resposta)
+            return person
+        except KeyError:
+            return resposta
+
 
 
     def fecharConexao(self, tcp):
