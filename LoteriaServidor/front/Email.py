@@ -2,8 +2,8 @@
 import smtplib
  
 # Credenciais
-remetente    = 'loteriaredes@gmail.com'
-senha        = 'loteriaqwerty'
+remetente    = 'EMAIL'
+senha        = 'SENHA'
 
 class Email(object):
 	def __init__(self, destinatario, assunto, texto):
