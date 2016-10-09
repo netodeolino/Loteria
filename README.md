@@ -40,3 +40,9 @@ Aplicação cliente-servidor de uma loteria em Python
 		conta varchar(10),
 		primary key(id_pessoa)
 	);
+
+####Neto Deolino
+<ol>
+    <li> linkedin.com/in/netodeolino </li>
+    <li> http://netodeolino.github.io </li>
+</ol>
