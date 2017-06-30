@@ -1,17 +1,17 @@
 # Loteria
 Aplicação cliente-servidor de uma loteria em Python
 
-##Tecnologias:
+## Tecnologias:
 	Python 2.7
 	MySQL 5.5
 	PyQT 4
 	Protocolo TCP
 
-##Pré-requisitos:
+## Pré-requisitos:
 	Instalar a biblioteca PyQT para o correto funcionamento da parte gráfica do sistema.
 		sudo apt-get install python-qt4
 
-##Base de dados:
+## Base de dados:
 	create database loteria;
 
 	create table aposta (
@@ -41,7 +41,7 @@ Aplicação cliente-servidor de uma loteria em Python
 		primary key(id_pessoa)
 	);
 
-####Neto Deolino
+#### Neto Deolino
 <ol>
     <li> https://linkedin.com/in/netodeolino </li>
     <li> https://netodeolino.github.io </li>
